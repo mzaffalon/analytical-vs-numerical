@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Michele Zaffalon">
-<meta name="dcterms.date" content="2025-03-09">
+<meta name="dcterms.date" content="2025-03-12">
 
 <title>Analytical vs Numerical Tools in Control Systems</title>
 <style>
@@ -202,7 +202,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 9, 2025</p>
+      <p class="date">March 12, 2025</p>
     </div>
   </div>
   
@@ -228,7 +228,7 @@ window.Quarto = {
 <p>with initial condition <span class="math inline">\(x(0)=x_0\)</span>, where <span class="math inline">\(A\)</span> is a <span class="math inline">\(n\times n\)</span> matrix with constant coefficient. In control systems, this equation comes either from the free evolution of the system (without control input, <span class="math inline">\(u=0\)</span>) or from the closed loop evolution <span class="math inline">\(A-BL\)</span> under the state feedback law <span class="math inline">\(u=-Lx\)</span>.</p>
 <p>The solution is</p>
 <p><span class="math display">\[ x(t) = e^{At}x_0. \]</span></p>
-<p>One way to compute the matrix exponential is to use the Jordan normal form decomposition <span class="math inline">\(AV = VJ\)</span> since most often than not, <span class="math inline">\(A\)</span> cannot be diagonalised. <span class="math inline">\(J\)</span> is a block diagonal matrix where each Jordan block <span class="math inline">\(J_i\)</span> would have <span class="math inline">\(\lambda_i\)</span> on the diagonal and <span class="math inline">\(1\)</span> on the superdiagonal.</p>
+<p>Analytically, one way to compute the matrix exponential is to use the Jordan normal form decomposition <span class="math inline">\(AV = VJ\)</span> since most often than not, <span class="math inline">\(A\)</span> cannot be diagonalised. <span class="math inline">\(J\)</span> is a block diagonal matrix where each Jordan block <span class="math inline">\(J_i\)</span> would have <span class="math inline">\(\lambda_i\)</span> on the diagonal and <span class="math inline">\(1\)</span> on the superdiagonal.</p>
 <p>The exponent <span class="math inline">\(e^{Jt}\)</span> is also block diagonal and each block has the form <span class="math display">\[ e^{J_it} = e^{\lambda_it} \begin{bmatrix}
 1 &amp; t      &amp; \frac{t^2}{2!} &amp; \ldots &amp; \frac{t^{n-1}}{(n-1)!} \\
   &amp; 1      &amp; t              &amp; \ldots &amp; \frac{t^{n-2}}{(n-2)!} \\
@@ -244,11 +244,11 @@ window.Quarto = {
 <p>This section is a remark on a purely analytical result.</p>
 <p>We would study the closed-loop stability as a function of a paramter. For some values of the parameter, the closed-loop matrix becomes defective (that is, it does not have a complete set of linearly independent eigenvectors) and it only admits a Jordan normal form. Analytically, the solution of the defective matrix <em>looks</em> different than the solution where the eigenvalues are slightly apart but is no substantial difference: after all, we are dealing with a linear system and we expect no surprises.</p>
 <p>As an example, take the second order autonomous differential equation <span id="eq-ODE-defective"><span class="math display">\[ \ddot{x} + \epsilon \dot{x}=0.  \tag{2}\]</span></span> This equation could describe a mechanical system that obeys Newton’s second law <span class="math inline">\(F=ma\)</span> with the term <span class="math inline">\(\epsilon \dot{x}\)</span> representing friction.</p>
-<p>One way to solve it requires us to write down the characteristic polynomial <span class="math inline">\(\lambda^2 - \epsilon \lambda=0\)</span>: for <span class="math inline">\(\epsilon\ne 0\)</span> there are two distinct solutions; for <span class="math inline">\(\epsilon=0\)</span> only one with double multiplicity. Then <span class="math inline">\(x(t)\)</span> becomes <span class="math display">\[ x(t) = \begin{cases}
-\tilde{x}_0 + \tilde{x}_1\frac{e^{\epsilon t}-1}{\epsilon} &amp; \epsilon \ne 0 \\
+<p>One way to solve it requires us to write down the characteristic polynomial <span class="math inline">\(\lambda^2 + \epsilon \lambda=0\)</span>: for <span class="math inline">\(\epsilon\ne 0\)</span> there are two distinct solutions; for <span class="math inline">\(\epsilon=0\)</span> only one with double multiplicity. Then <span class="math inline">\(x(t)\)</span> becomes <span class="math display">\[ x(t) = \begin{cases}
+\tilde{x}_0 + \tilde{x}_1\frac{1-e^{\epsilon t}}{\epsilon} &amp; \epsilon \ne 0 \\
 \tilde{x}_0 + \tilde{x}_1 \cdot t &amp; \epsilon = 0
 \end{cases} \]</span> where <span class="math inline">\(\tilde{x}_0\)</span> and <span class="math inline">\(\tilde{x}_1\)</span> are the two initial conditions for <span class="math inline">\(x(0)\)</span> and <span class="math inline">\(\dot{x}(0)\)</span>.</p>
-<p>For short time evolutions <span class="math inline">\(|\epsilon t| \ll 1\)</span>, the exponent has Taylor expansion <span class="math inline">\(e^{\epsilon t}\approx 1+\epsilon t\)</span> and the solution for <span class="math inline">\(\epsilon\ne 0\)</span> can be approximated by <span class="math display">\[ x(t)\approx \tilde{x}_0+\tilde{x}_1 t. \]</span> This approximation holds for a time sufficiently long to “detect” that <span class="math inline">\(\epsilon\ne 0\)</span>. For shorter times, the two solutions are indistinguishable, see <a href="#fig-defective" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<p>For short time evolutions <span class="math inline">\(|\epsilon t| \ll 1\)</span>, the exponent has Taylor expansion <span class="math inline">\(e^{\epsilon t}\approx 1+\epsilon t\)</span> and the solution for <span class="math inline">\(\epsilon\ne 0\)</span> can be approximated by <span class="math display">\[ x(t)\approx \tilde{x}_0+\tilde{x}_1 t. \]</span> This approximation holds for a time sufficiently long to “detect” that <span class="math inline">\(\epsilon\ne 0\)</span>. For shorter times, the two solutions are indistinguishable, see <a href="#fig-defective" class="quarto-xref">Figure&nbsp;1</a>. The error of this approximation can be estimated by keeping the next term of the Taylor expansion, <span class="math inline">\(x_1\epsilon t^2/2\)</span>.</p>
 <div id="cell-fig-defective" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-defective" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -257,20 +257,16 @@ window.Quarto = {
 <img src="analytical-vs-numerical_files/figure-html/fig-defective-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-defective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Comparison of the time evolutions of <a href="#eq-ODE-defective" class="quarto-xref">Equation&nbsp;2</a> for <span class="math inline">\(\epsilon \ne 0\)</span> and for <span class="math inline">\(\epsilon = 0\)</span>.
+Figure&nbsp;1: Comparison of the time evolutions of <a href="#eq-ODE-defective" class="quarto-xref">Equation&nbsp;2</a> for <span class="math inline">\(\epsilon \ne 0\)</span> and for <span class="math inline">\(\epsilon = 0\)</span> as a function of <span class="math inline">\(|\epsilon t|\)</span>. The inset shows the error between the two expressions, and the <em>estimate</em> <span class="math inline">\(x_1\epsilon t^2/2\)</span> of the error coming from the second term of the Taylor expansion of <span class="math inline">\(e^{\epsilon t}\)</span>.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<!---
-In the space state form, @eq-ODE-defective can be written as
-$$ \begin{pmatrix} \dot{x}_1 \\ \dot{x}_2 \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 0 & -\epsilon \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}. $$
---->
 </section>
 <section id="asymptotic-stability" class="level1">
 <h1>Asymptotic Stability</h1>
-<p>For linear systems, the stability properties of the plant are analysed by looking at the eigenvalues of the plants matrix <span class="math inline">\(A\)</span> (or the stabilized plant <span class="math inline">\(A+BL\)</span> where the feedback control law <span class="math inline">\(L\)</span> is obtained <em>e.g.</em> by ):</p>
+<p>For linear systems, the stability properties of the plant are analysed by looking at the eigenvalues of the plants matrix <span class="math inline">\(A\)</span> (or the stabilized plant <span class="math inline">\(A+BL\)</span> where the feedback control law <span class="math inline">\(L\)</span> is obtained by <em>e.g.</em> pole placement):</p>
 <ul>
 <li>negative (real part of) eigenvalue <span class="math inline">\(\rightarrow\)</span> the mode is stable;</li>
 <li>positive eigenvalue <span class="math inline">\(\rightarrow\)</span> the mode is unstable;</li>
@@ -298,7 +294,7 @@ $$ \begin{pmatrix} \dot{x}_1 \\ \dot{x}_2 \end{pmatrix} = \begin{pmatrix} 0 & 1 
 <li>the data quality, in case of experimental data.</li>
 </ul>
 <p>In the example below, the third column of the matrix <span class="math inline">\(A\)</span> is a linear combination of the first two: therefore <span class="math inline">\(A\)</span> has therefore mathematical rank 2 (and null-space of dimension 1):</p>
-<div id="08c06f56" class="cell" data-hold="true" data-execution_count="3">
+<div id="b0c9cbf6" class="cell" data-hold="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="kw">let</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> [<span class="fl">3</span>, <span class="op">-</span><span class="fl">2</span>, <span class="fl">5</span>]</span>
@@ -324,7 +320,7 @@ rank(B; rtol = 1.0e-7) = 2</code></pre>
 <p>I have asked <a href="https://idsc.ethz.ch/">Prof.&nbsp;Zeilinger</a> (eventual errors are mine). Her answer was</p>
 <ul>
 <li>it should only be applied to system models obtained from first principles and not, for instance, by system identification;</li>
-<li>no better definition of controllability/observability exists.</li>
+<li>no better definition of controllability/observability exists. <em>Input-output</em> controllability is a more practical definition although mathematically less rigorous (see Sect. 5 of <span class="citation" data-cites="multivariable-feedback">Skogestad and Postlethwaite</span>).</li>
 </ul>
 <!--
 ## Are Lyapunov Functions Theoretical Tools?
@@ -355,6 +351,9 @@ I fix it by adding an absurdibly small term of the appropriate degree: $10^{-100
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-nineteen-dubious" class="csl-entry" role="listitem">
 Moler, Cleve, and Charles Van Loan. 2003. <span>“Nineteen Dubious Ways to Compute the Exponential of a Matrix, Twenty-Five Years Later.”</span> <em>SIAM Review</em> 45 (1).
+</div>
+<div id="ref-multivariable-feedback" class="csl-entry" role="listitem">
+Skogestad, Sigurd, and Ian Postlethwaite. <em>Multivariable Feedback Control: Analysis and Design</em>. Second edition, 2001. John Wiley &amp; Sons.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
